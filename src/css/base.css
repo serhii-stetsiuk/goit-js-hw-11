@@ -126,6 +126,13 @@ main:has(.back-link) {
 	margin: 4px 0;
 	text-align: center;
 }
+.simple-lightbox img {
+	max-width: 100% !important;
+	max-height: 90vh;
+	/* адаптируется под видимую высоту экрана */
+	width: auto;
+	height: auto;
+}
 
 /* HTML: <div class="loader"></div> */
 .loader {
