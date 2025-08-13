@@ -2,8 +2,12 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-const bigGallery = document.querySelector('.gallery');
-const bigLoader = document.querySelector('.loader');
+const generalGallery = document.querySelector('.gallery');
+const formLoader = document.querySelector('.loader');
+let simpleLightbox = new SimpleLightbox('.gallery a', {
+	captionDelay: 250,
+	overlayOpacity: 0.95,
+});
 export function createGallery(images) {
 	
 	function templateImage({ webformatURL, largeImageURL, tags, likes, views, comments, downloads}) {
@@ -38,28 +42,19 @@ export function createGallery(images) {
 		return images.map(templateImage).join('');
 	}
 		const markup = templateImages(images);
-	bigGallery.innerHTML = markup;
-	SimpleLight.refresh();
+	generalGallery.innerHTML = markup;
+	simpleLightbox.refresh();
 	hideLoader();
 };
-	let SimpleLight = new SimpleLightbox('.gallery a', {
-	captionDelay: 250,
-	overlayOpacity: 0.95,
-});
-bigGallery.addEventListener('click', e => {
-	e.preventDefault();
-	if (e.target.noteName !== 'A') return;
-
-});
 export function showLoader(){
-	bigLoader.classList.add('isActive');
+	formLoader.classList.add('isActive');
 }
 export function hideLoader(){
-	bigLoader.classList.remove('isActive');
+	formLoader.classList.remove('isActive');
 }
 export function clearGallery() {
-	if (bigGallery) {
-		bigGallery.innerHTML = '';
+	if (generalGallery) {
+		generalGallery.innerHTML = '';
 	}
 }
 
