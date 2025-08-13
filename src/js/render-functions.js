@@ -3,11 +3,10 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 const bigGallery = document.querySelector('.gallery');
-
-export async function createGallery(images) {
+const bigLoader = document.querySelector('.loader');
+export function createGallery(images) {
 	
 	function templateImage({ webformatURL, largeImageURL, tags, likes, views, comments, downloads}) {
-	
 		return `
         <a class="gallery-card" href="${largeImageURL}"
           ><div class="gallery-link">
@@ -35,28 +34,32 @@ export async function createGallery(images) {
         </a>`;
 	};
 
-	
 	function templateImages(images) {
 		return images.map(templateImage).join('');
 	}
 		const markup = templateImages(images);
 	bigGallery.innerHTML = markup;
-SimpleLight.refresh();
+	SimpleLight.refresh();
+	hideLoader();
 };
-
 	let SimpleLight = new SimpleLightbox('.gallery a', {
 	captionDelay: 250,
 	overlayOpacity: 0.95,
 });
-
 bigGallery.addEventListener('click', e => {
 	e.preventDefault();
 	if (e.target.noteName !== 'A') return;
 
 });
-
-
-// clearGallery()
-// showLoader()
-// hideLoader()
+export function showLoader(){
+	bigLoader.classList.add('isActive');
+}
+export function hideLoader(){
+	bigLoader.classList.remove('isActive');
+}
+export function clearGallery() {
+	if (bigGallery) {
+		bigGallery.innerHTML = '';
+	}
+}
 

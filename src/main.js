@@ -1,26 +1,31 @@
 
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 import { getImagesByQuery } from './js/pixabay-api';
-import { createGallery }  from './js/render-functions';
-
+import { createGallery, showLoader, clearGallery, hideLoader }  from './js/render-functions';
 
 const allForm = document.querySelector('.form');
 const inputText = document.querySelector('.input_text');
-const bigLoader = document.querySelector('.loader');
 
-
-   allForm.addEventListener('submit', (e) => {
+allForm.addEventListener('submit', (e) => {
+		clearGallery();
 		e.preventDefault();
-		// bigLoader.classList.add('isActive');
+		showLoader()
 		getImagesByQuery(inputText.value.trim())
-			.then(res => createGallery(res.hits));
+			.then(res => {if(!res.hits.length){iziToast.error({
+				position: 'topRight',
+				message: 'Sorry, there are no images matching your search query. Please try again!',
+			}), hideLoader() } else{createGallery(res.hits)}})
 
-		e.target.reset();
+			.catch(error=>iziToast.error({
+				position: 'topRight',
+				message: error,
+			}));
+			
+			
 	
+		e.target.reset();
 	})
 
 
